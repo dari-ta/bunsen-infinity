@@ -37,6 +37,7 @@ class MyWindow(gtk.Window):
 		self.mainbox.pack_start(self.btn)
 		
 	def btn_clicked(self, widget):
+		os.system("rm /tmp/infinity-update");
 		os.system("wget https://github.com/dari-ta/bunsen-infinity/archive/master.zip -P /tmp/infinity-update/");
 		os.system("unzip /tmp/infinity-update/master.zip -d /tmp/infinity-update/");
 		os.system("gksudo /tmp/infinity-update/bunsen-infinity-master/opt/infinity/install.sh");
