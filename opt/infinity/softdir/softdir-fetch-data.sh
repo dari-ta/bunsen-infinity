@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://dan-net.de/infinity/dwl/softdir-data"
+URL="https://raw.githubusercontent.com/dari-ta/bunsen-infinity/master/opt/infinity/softdir-data"
 
 rm /home/$USER/.infinity/softdir-data-new
 
