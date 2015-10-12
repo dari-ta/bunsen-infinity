@@ -1,0 +1,118 @@
+#!/usr/bin/env python
+
+import pygtk
+import gtk
+import os
+import sys
+import signal
+import csv
+
+class MyWindow(gtk.Window):
+	
+	def __init__(self):
+		gtk.Window.__init__(self)
+		self.set_title("Software Directory")
+		self.set_size_request(700, 400)
+		
+		self.mainbox = gtk.VBox()
+		self.add(self.mainbox)
+
+
+		#Searchbar
+		self.topbox = gtk.HBox()
+		#self.mainbox.pack_start(self.topbox, fill=False)
+		
+		lbl1 = gtk.Label()
+		lbl1.set_size_request(500, 30)
+		self.topbox.pack_start(lbl1)
+		
+		self.search = gtk.Entry()
+		search_icon_id = gtk.STOCK_FIND
+		self.search.set_icon_from_stock(0, search_icon_id)
+		self.topbox.pack_start(self.search, fill=False)
+		
+		#Table
+		
+		self.appmodel = gtk.ListStore(str, str, str, bool)
+		
+		#Load from file
+		path = '/home/' + os.getlogin() + '/.infinity/';
+		with open(path + "softdir-data", 'rb') as csvfile:
+			csvreader = csv.reader(csvfile, delimiter=',', quotechar='#')
+			for row in csvreader:
+				display = True
+				print(row[0] + " " + row[3])
+				if os.path.exists(row[3]):
+					display = False
+					print(row[0] + "not")
+				print(os.path.exists(row[3]))
+				if display:
+					self.appmodel.append([row[0], row[1], row[2], False])
+		
+		self.listing = gtk.TreeView(self.appmodel)
+		self.listing.set_size_request(700, 320)
+		self.mainbox.pack_start(self.listing)
+		
+		
+		check_renderer = gtk.CellRendererToggle()
+		check_renderer.connect("toggled", self.app_toggled)
+		check_column = gtk.TreeViewColumn("", check_renderer, active=3)
+		self.listing.append_column(check_column)
+		
+		name_renderer = gtk.CellRendererText()
+		name_column = gtk.TreeViewColumn("Name", name_renderer, text=0)
+		self.listing.append_column(name_column)
+		
+		#pckg_renderer = gtk.CellRendererText()
+		#pckg_column = gtk.TreeViewColumn("Package", pckg_renderer, text=1)
+		#self.listing.append_column(pckg_column)
+		
+		#scpt_renderer = gtk.CellRendererText()
+		#scpt_column = gtk.TreeViewColumn("Script", scpt_renderer, text=2)
+		#self.listing.append_column(scpt_column)
+		
+		
+		#Buttons
+		self.buttonbox = gtk.HBox()
+		self.mainbox.pack_end(self.buttonbox, fill=False)
+		
+		self.btn_advanced = gtk.Button(label="Advanced")
+		self.btn_advanced.set_size_request(150, 30)
+		self.btn_advanced.connect("clicked", self.btn_advanced_clicked)
+		self.buttonbox.pack_start(self.btn_advanced, fill=False)
+		
+		self.btn_install = gtk.Button(label="Install")
+		self.btn_install.set_size_request(150, 30)
+		self.btn_install.connect("clicked", self.btn_install_clicked)
+		self.buttonbox.pack_start(self.btn_install, fill=False)
+		
+	def app_toggled(self, widget, path):
+		self.appmodel[path][3] = not self.appmodel[path][3]
+		
+	def btn_advanced_clicked(self, widget):
+		os.system("gksudo synaptic &")
+		
+	def btn_install_clicked(self, widget):
+		for appinfo in self.appmodel:
+			if appinfo[3]:
+				print(appinfo[0])
+				if appinfo[1] != "":
+					#We install the packages
+					os.system(os.path.realpath(__file__) + "-install " + appinfo[1] + "")
+				if appinfo[2] != "":
+					#We install with the script
+					substr = appinfo[2][:7]
+					print(substr);
+					if substr == "http://":
+						os.system(os.path.realpath(__file__) + "-webinstall.sh " + appinfo[2] + "")
+					else:
+						os.system(appinfo[2] + "")
+				
+
+#os.system(os.path.realpath(__file__) + "-fetch-data.sh")
+		
+win = MyWindow()
+win.connect("delete-event", gtk.main_quit)
+win.show_all()
+gtk.main()
+

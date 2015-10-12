@@ -1,0 +1,5 @@
+Appearance,style,lxappearance,
+Screen,preferences-desktop-display,arandr,
+Notifications,dialog-warning,xfce4-notifyd-config,
+Window Behavior,preferences-system-windows,obconf,
+Power Management,battery,xfce4-power-manager-settings,

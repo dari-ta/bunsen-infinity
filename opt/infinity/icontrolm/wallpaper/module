@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+
+import pygtk
+import gtk
+import os
+import sys
+import signal
+import csv
+
+class MyWindow(gtk.Window):
+	
+	def __init__(self):
+		gtk.Window.__init__(self)
+		self.set_title("Set Wallpaper")
+		self.set_size_request(700, 400)
+		color = gtk.gdk.color_parse('#202020')
+		self.modify_bg(gtk.STATE_NORMAL, color)
+		
+		self.mainbox = gtk.VBox()
+		self.add(self.mainbox)
+
+		self.wps = gtk.ListStore(gtk.gdk.Pixbuf, str)
+
+		wp_path = '/home/' + os.getlogin() + '/Pictures/wallpapers/'
+
+		self.iconview = gtk.IconView()
+		self.iconview.set_model(self.wps)
+		self.iconview.set_pixbuf_column(0)
+		self.iconview.set_text_column(-1)
+		self.iconview.modify_bg(gtk.STATE_NORMAL, color)
+		self.iconview.connect("item-activated", self.wp_activated)
+
+		self.mainbox.pack_start(self.iconview)
+
+		self.load_wps_from_path(wp_path)
+
+	def load_wps_from_path(self, __path):
+		for dirName, subdirList, fileList in os.walk(__path):
+			print('Found directory: %s' % dirName)
+			for fileName in fileList:
+				fileName = dirName + '/' + fileName
+				#print(fileName)
+				pixbuf = gtk.gdk.pixbuf_new_from_file(fileName)
+				sbuf = pixbuf.scale_simple(200,150,gtk.gdk.INTERP_BILINEAR)
+				self.wps.append([sbuf, fileName])
+
+			for sdirName in subdirList:
+				self.load_wps_from_path(dirName + '/' + sdirName)
+
+	def wp_activated(self, iconview, path):
+		selected = iconview.get_selected_items()
+		file = self.wps[selected[0][0]][1]
+		print file
+		o  = "[:0.0]\n"
+		o += "file=" + file + "\n"
+		o += "mode=5\n"
+		o += "bgcolor=#2d3335\n"
+
+		confpath = '/home/' + os.getlogin() + '/.config/nitrogen/bg-saved.cfg';
+		fl = open(confpath, 'w')
+		fl.write(o)
+		fl.close()
+
+		os.system('nitrogen --restore')
+
+		gtk.main_quit()
+
+		
+win = MyWindow()
+win.connect("delete-event", gtk.main_quit)
+win.show_all()
+gtk.main()

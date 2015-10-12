@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+
+import pygtk
+pygtk.require('2.0')
+import gtk
+import os
+import sys
+import signal
+import gtk.gdk
+import csv
+
+
+class MyWindow(gtk.Window):
+
+	def __init__(self):
+		gtk.Window.__init__(self)
+		self.set_title("Control Panel")
+		color = gtk.gdk.color_parse('#f5f5f5')
+		self.modify_bg(gtk.STATE_NORMAL, color)
+		
+		#Load from data
+		self.mods = gtk.ListStore(gtk.gdk.Pixbuf, str, str)
+
+		
+		
+		path = '/opt/infinity/';
+		print(path);
+		rootdir = path + 'icontrolm/';
+		for dirName, subdirList, fileList in os.walk(rootdir):
+			print('Found directory: %s' % dirName)
+			if os.path.isfile(dirName + "/info"):
+				with open(dirName + "/info", 'rb') as csvfile:
+					csvreader = csv.reader(csvfile, delimiter=',', quotechar='#')
+					for row in csvreader:
+						if len(row) >= 3:
+							pixbuf = gtk.icon_theme_get_default().load_icon(row[1], 64, 0)
+							label = row[0]
+							command = row[2].replace('$mod', dirName + '/')
+							print(command)
+							self.mods.append([pixbuf, label, command])
+
+
+		self.mainbox = gtk.VBox()
+		self.add(self.mainbox)
+
+		self.topbox = gtk.HBox()
+		self.mainbox.pack_start(self.topbox)
+		
+		
+		self.iconview = gtk.IconView()
+		self.iconview.set_model(self.mods)
+		self.iconview.set_pixbuf_column(0)
+		self.iconview.set_text_column(1)
+
+
+		self.mainbox.pack_start(self.iconview)
+		self.iconview.set_size_request(400,420)
+
+		self.iconview.connect("selection-changed", self.mod_selected)
+
+
+		infinity_img = gtk.Image()
+		pixbuf = gtk.gdk.pixbuf_new_from_file('/opt/infinity/' + "infinity-icon.png")
+		sbuf = pixbuf.scale_simple(100,100,gtk.gdk.INTERP_BILINEAR)
+		infinity_img.set_from_pixbuf(sbuf)
+		self.set_icon(sbuf)
+		self.topbox.pack_start(infinity_img)
+
+		cp_label = gtk.Label()
+		cp_label.set_markup("<span size='26000'>Control Panel</span>")
+		self.topbox.pack_start(cp_label)
+		cp_label.set_size_request(400,20)
+
+
+	def mod_selected(self, iconview):
+		selected = iconview.get_selected_items()
+		command = self.mods[selected[0][0]][2]
+		os.system(command + " &")
+
+
+win = MyWindow()
+win.connect("delete-event", gtk.main_quit)
+win.show_all()
+win.set_size_request(600, 300)
+gtk.main();

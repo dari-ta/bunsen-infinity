@@ -1,0 +1,144 @@
+#!/usr/bin/env python
+
+import pygtk
+import gtk
+import os
+import sys
+import signal
+import csv
+
+
+class MyWindow(gtk.Window):
+	
+	def __init__(self):
+		gtk.Window.__init__(self)
+		self.set_title("Startmenu settings")
+		color = gtk.gdk.color_parse('#f5f5f5')
+		self.modify_bg(gtk.STATE_NORMAL, color)
+		self.set_size_request(400, 600)
+		
+		self.mainbox = gtk.VBox()
+		self.add(self.mainbox)
+
+		self.oldcurrcol = -1
+		
+		#Table
+		
+		self.appmodel = gtk.ListStore(gtk.gdk.Pixbuf, str, str, bool, str)
+
+		#Load from file
+		path = "/home/" + os.getlogin() + '/.infinity/';
+		with open(path + "startmenu2.data", 'rb') as csvfile:
+			csvreader = csv.reader(csvfile, delimiter=',', quotechar='#')
+			for row in csvreader:
+				if len(row) >= 3:
+					pixbuf = gtk.icon_theme_get_default().load_icon(row[1], 32, 0)
+					title = row[0] 
+					command = row[2]
+					self.appmodel.append([pixbuf, title, command, True, row[1]])
+		
+		self.listing = gtk.TreeView(self.appmodel)
+		self.listing.set_size_request(700, 320)
+		self.mainbox.pack_start(self.listing)
+		
+		
+		check_renderer = gtk.CellRendererToggle()
+		#check_renderer.connect("toggled", self.app_toggled)
+		check_column = gtk.TreeViewColumn("", check_renderer, active=3)
+		#self.listing.append_column(check_column)
+		
+		icon_renderer = gtk.CellRendererPixbuf()
+		icon_column = gtk.TreeViewColumn("", icon_renderer, pixbuf=0)
+		self.listing.append_column(icon_column)
+
+		name_renderer = gtk.CellRendererText()
+		name_column = gtk.TreeViewColumn("Name", name_renderer, text=1)
+		self.listing.append_column(name_column)
+
+		self.listing.connect("cursor-changed", self.selection_changed)
+
+
+		self.buttonbox = gtk.HBox()
+		self.buttonbox.set_size_request(400, 30)
+		self.mainbox.pack_start(self.buttonbox, fill=False)
+
+		self.btn_add = gtk.Button(label="Add")
+		self.btn_add.set_size_request(100, 30)
+		self.btn_add.connect("clicked", self.btn_add_clicked)
+		self.buttonbox.pack_start(self.btn_add, fill=False)
+
+		self.btn_remove = gtk.Button(label="Remove")
+		self.btn_remove.set_size_request(100, 30)
+		self.btn_remove.connect("clicked", self.btn_remove_clicked)
+		self.buttonbox.pack_start(self.btn_remove, fill=False)
+
+
+		self.editbox = gtk.VBox()
+		self.mainbox.pack_start(self.editbox)
+
+		eb_title = gtk.HBox()
+		l_title = gtk.Label()
+		l_title.set_text("Title")
+		self.e_title = gtk.Entry()
+		eb_title.pack_start(l_title)
+		eb_title.pack_start(self.e_title)
+		self.editbox.pack_start(eb_title)
+
+		eb_icon = gtk.HBox()
+		l_icon = gtk.Label()
+		l_icon.set_text("Icon")
+		self.e_icon = gtk.Entry()
+		eb_icon.pack_start(l_icon)
+		eb_icon.pack_start(self.e_icon)
+		self.editbox.pack_start(eb_icon)
+
+		eb_command = gtk.HBox()
+		l_command = gtk.Label()
+		l_command.set_text("Command")
+		self.e_command = gtk.Entry()
+		eb_command.pack_start(l_command)
+		eb_command.pack_start(self.e_command)
+		self.editbox.pack_start(eb_command)
+
+	def selection_changed(self, treeview):
+		currcol = treeview.get_cursor()[0][0]
+
+		if self.oldcurrcol != -1: #Update 
+			self.appmodel[self.oldcurrcol][1] = self.e_title.get_text()
+			self.appmodel[self.oldcurrcol][4] = self.e_icon.get_text()
+			self.appmodel[self.oldcurrcol][2] = self.e_command.get_text()
+			self.save()
+
+		self.e_title.set_text(self.appmodel[currcol][1])
+		self.e_icon.set_text(self.appmodel[currcol][4])
+		self.e_command.set_text(self.appmodel[currcol][2])
+
+		self.oldcurrcol = currcol
+
+
+
+	def btn_add_clicked(self, widget):
+		pixbuf = gtk.icon_theme_get_default().load_icon('applications-other', 32, 0)
+		self.appmodel.append([pixbuf, '', '', '', ''])
+
+	def btn_remove_clicked(self, widget):
+		iter = self.appmodel.get_iter(self.listing.get_cursor()[0])		
+		self.appmodel.remove(iter)
+		self.save()
+
+	def save(self):
+		path = '/home/' + os.getlogin() + '/.infinity/';
+		file = open(path + "/startmenu2.data", 'w')
+		for capp in self.appmodel:
+			print(capp[1] + ": " + capp[4] + "> " + capp[2])
+			file.write(capp[1] + ',' + capp[4] + ',' + capp[2] + ',\n')
+
+		file.close()
+
+
+
+
+win = MyWindow()
+win.connect("delete-event", gtk.main_quit)
+win.show_all()
+gtk.main()

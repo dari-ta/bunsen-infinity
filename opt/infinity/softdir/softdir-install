@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [ "$1" != "--install" ]; then
+	if [ "$1" != "" ]; then
+		terminator --title="Software Directory" --command="$0 --install $1"
+	fi
+	exit 0
+fi
+
+echo ""
+echo "  INSTALL $2"
+echo "  ------------------------"
+echo "  This script will install $2"
+echo ""
+echo -n "  Run this installer now? (Y|n) > "
+read a
+if [ "$a" = "y" ] || [ "$a" = "Y" ] || \
+[ "$a" = "" ]; then	
+	clear
+	echo "  Updating sources..."
+	sleep 2s
+	sudo apt-get update
+	clear
+	if ! sudo apt-get install -y $2; then
+		echo ""
+		echo "  There was a problem installing $2."
+		echo ""
+		echo "  Hit any key to quit..."
+		read -n1 a
+		exit 0
+	else
+		clear
+		echo ""
+		echo "  $2 has been installed successfully."
+		echo ""
+		echo "  Hit any key to exit..."
+		read -n1 a
+		exit 0
+	fi
+else
+	exit 0
+fi
+
+
+exit 0

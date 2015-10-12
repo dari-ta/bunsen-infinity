@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Startmenu
+Comment=Launch Apps
+Exec=/opt/infinity/startmenu/startmenu
+Icon=infinity-icon-bright
+Terminal=false
+Type=Application
+Categories=
+StartupNotify=true
+GenericName=

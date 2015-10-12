@@ -1,0 +1,29 @@
+#!/bin/bash
+
+mkdir -p /home/$USER/.infinity
+#first run?
+if [ -a "/home/$USER/.infinity/.notfirstrun" ];then
+	echo "NFR"
+	exit 0
+fi
+
+
+
+zenity --info --title="Infinity install" --text "Let's set your default apps!"
+
+if [ ! -a "/home/$USER/.infinity/startmenu2.data" ];then
+	touch "/home/$USER/.infinity/startmenu2.data"
+fi
+
+/opt/infinity/startmenu/startmenu-add "Filemanager" "thunar" "file-manager"
+/opt/infinity/startmenu/startmenu-add "Internet" "x-www-browser" "web-browser"
+/opt/infinity/startmenu/startmenu-add "Text Editor" "geany" "text-editor"
+/opt/infinity/startmenu/startmenu-add "Media Player" "vlc" "vlc"
+/opt/infinity/startmenu/startmenu-add "Command Prompt" "terminator" "terminator"
+
+
+
+#Create not first run file
+touch /home/$USER/.infinity/.notfirstrun
+
+zenity --info --title="Infinity install" --text "Installation complete"

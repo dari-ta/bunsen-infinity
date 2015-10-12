@@ -1,0 +1,7 @@
+#!/bin/bash
+
+_type="$1"
+_app="$2"
+_path="$3"
+
+/opt/infinity/startmenu/startmenu-add $2 $3 "applications-other"
