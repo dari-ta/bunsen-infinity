@@ -101,9 +101,9 @@ class MyWindow(gtk.Window):
 					os.system(os.path.realpath(__file__) + "-install " + appinfo[1] + "")
 				if appinfo[2] != "":
 					#We install with the script
-					substr = appinfo[2][:7]
+					substr = appinfo[2][:8]
 					print(substr);
-					if substr == "http://":
+					if substr == "https://":
 						os.system(os.path.realpath(__file__) + "-webinstall.sh " + appinfo[2] + "")
 					else:
 						os.system(appinfo[2] + "")
