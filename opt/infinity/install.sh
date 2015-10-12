@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cp -R /tmp/infinity-update/* /
+cp -R /tmp/infinity-update/bunsen-infinity-master/* /
 
 exit
