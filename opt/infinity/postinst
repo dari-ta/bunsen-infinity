@@ -21,6 +21,10 @@ fi
 /opt/infinity/startmenu/startmenu-add "Media Player" "vlc" "vlc"
 /opt/infinity/startmenu/startmenu-add "Command Prompt" "terminator" "terminator"
 
+#Copy Tint2 Info
+cp /opt/infinity/local/tint2rc-infinity ~/.config/tint2/
+bl-tint2zen
+
 
 
 #Create not first run file
