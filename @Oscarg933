@@ -1,0 +1,150 @@
+Skip to content
+Your account has been flagged.
+Because of that, your profile is hidden from the public. If you believe this is a mistake, contact support to have your account status reviewed.
+
+infinity plex
+Repositories0
+Code28K
+Commits26
+Issues24
+Marketplace0
+Topics0
+Wikis2
+Users0
+Languages
+4,965 HTML
+4,651 CSS
+4,032 CSV
+2,858 Text
+2,290 SCSS
+1,524 C++
+1,211 C#
+1,166 Markdown
+659 JSON
+355 JavaScript
+Advanced search 
+28,063 code results
+@pyushkevich
+pyushkevich/paulytools – spxbounds.cpp
+Showing the top three matches Last indexed on Jul 6, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@sahilpparmar
+sahilpparmar/llvm_backend – spxbounds.cc
+Showing the top four matches Last indexed on Jun 28, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+   case SPxBasis::Desc::D_ON_UPPER :
+      lw = -infinity;
+      break;
+
+   default:
+      break;
+   }
+}
+
+void SoPlex::setDualColBounds()
+@pyushkevich
+pyushkevich/paulytools – spxvecs.cpp
+Showing the top three matches Last indexed on Jul 6, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@sahilpparmar
+sahilpparmar/llvm_backend – spxvecs.cc
+Showing the top three matches Last indexed on Jun 28, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@akshayrkale
+akshayrkale/llvm_backend_X86 – spxbounds.cc
+Showing the top four matches Last indexed on Jun 30, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+   case SPxBasis::Desc::D_ON_UPPER :
+      lw = -infinity;
+      break;
+
+   default:
+      break;
+   }
+}
+
+void SoPlex::setDualColBounds()
+@akshayrkale
+akshayrkale/llvm_backend_X86 – spxvecs.cc
+Showing the top three matches Last indexed on Jun 30, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@TobiasWeber
+TobiasWeber/QPRefinement – example.cpp
+Showing the top three matches Last indexed on Jul 11, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@TeamVault
+TeamVault/tauCFI – spxbounds.cc
+Showing the top four matches Last indexed 10 days ago
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+   case SPxBasis::Desc::D_ON_UPPER :
+      lw = -infinity;
+      break;
+
+   default:
+      break;
+   }
+}
+
+void SoPlex::setDualColBounds()
+@TeamVault
+TeamVault/tauCFI – spxvecs.cc
+Showing the top three matches Last indexed 10 days ago
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+@pyushkevich
+pyushkevich/paulytools – enter.cpp
+Showing the top three matches Last indexed on Jul 6, 2018
+C++
+/*                  This file is part of the class library                   */
+/*       SoPlex --- the Sequential object-oriented simPlex.                  */
+/*                            fuer Informationstechnik Berlin                */
+/*                                                                           */
+/*  SoPlex is distributed under the terms of the ZIB Academic Licence.       */
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.
